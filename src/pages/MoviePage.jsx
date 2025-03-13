@@ -1,23 +1,65 @@
-import { Link } from "react-router-dom"
+import axios from 'axios'
+import { useState, useEffect } from "react"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
-import ReviewCard from "../components/ReviewCard"
+import ReviewCard from "./../components/ReviewCard"
+import ReviewForm from "./../components/ReviewForm"
+
+import React from 'react'
+
 
 const MoviePage = () => {
+
+    // recupero id del libro richiesto
+    const { id } = useParams();
+
+    // redirect con il useNavigate
+    const redirect = useNavigate();
+
+    // set stato componente
+    const [movie, setMovie] = useState({});
+
+    // funzione chiamata all'API per richiesta libro
+    const fetchMovie = () => {
+        axios.get("http://localhost:3000/api/movies/" + id)
+        .then(
+            res => {
+                setMovie(res.data)
+            }
+        )
+        .catch(err => {
+            console.log(err);
+            if (err.status === 404) redirect("/404")
+            
+        })
+    }
+
+    // chiamata all'API al montaggio del componente
+    useEffect(fetchMovie, [])
+
+    // funzione rendering reviews
+    const renderReviews = () => {
+        return movie.reviews?.map(
+            review => <ReviewCard key={review.id} reviewProp={reviews} />
+        )
+    }
+
     return (
         <>
         <header id="book" className="border-bottom border-1 mb-3">
             <div className="d-flex mb-3">
-                <img className="book-img" src="http://localhost:3000/img/movies/matrix.jpg"
-                 alt="descrizione img" />
+                <img className="book-img"
+                src={movie.img}
+                 alt={movie.title} />
                  <div>
-                    <h1>Movie Title</h1>
+                    <h1>{movie.title}</h1>
                     <h3 className="text-muted">
                         <i>
-                            By Author name
+                            By {movie.director}
                         </i>
                     </h3>
                     <p>
-                        Some text goes here
+                        {movie.abstract}
                     </p>
                  </div>
             </div>
@@ -29,13 +71,17 @@ const MoviePage = () => {
                 <h4>Our community reviews</h4>
             </header>
 
-            <ReviewCard />
-            <ReviewCard />
-            <ReviewCard />
+            {renderReviews()}
 
         </section>
+
+        <section>
+            <ReviewForm movie_id={movie.id} reloadReviews={fetchMovie} />
+
+        </section>
+
         <footer className="border-top border-1 pt-2 mb-3 d-flex jstify-content-end">
-            <LInk className="btn btn-secondary" to="/">Back to home</LInk>
+            <Link className="btn btn-secondary" to="/">Back to home</Link>
 
         </footer>
         </>
