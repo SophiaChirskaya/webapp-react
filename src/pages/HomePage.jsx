@@ -19,7 +19,7 @@ const HomePage = () => {
         )
     }
 
-    // fetch movies
+    // richiamo funzione fetch movies e 
     useEffect(fetchMovies, [])
 
     // funzione rendering delle MovieCard
