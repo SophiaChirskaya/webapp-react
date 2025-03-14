@@ -1,4 +1,5 @@
 
+
 import HomePage from "./pages/HomePage"
 import MoviePage from "./pages/MoviePage"
 import DefaultLayout from './layouts/DefaultLayout'

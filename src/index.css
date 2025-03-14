@@ -1,3 +1,7 @@
+.navbar-brand{
+  padding-left: 3rem;
+}
+
 .overlay{
   position: fixed;
   top: 0;
