@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 
-const ReviewForm = ({ book_id, reloadReviews }) => {
+const ReviewForm = ({ movie_id, reloadReviews }) => {
 
     const initialValue = { name: "", text: "", vote: 1 };
 
@@ -15,7 +15,7 @@ const ReviewForm = ({ book_id, reloadReviews }) => {
         setFormData({ ...formData, [name]: value });
     }
 
-    const urlEndpoint = `http://localhost:3000/api/movies/${book_id}/reviews`;
+    const urlEndpoint = `http://localhost:3000/api/movies/${movie_id}/reviews`;
 
     // funzione invio richiesta al submit del form
     const submitReview = (e) => {
